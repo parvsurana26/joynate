@@ -153,6 +153,8 @@ app.get("/api/auth/profile", authenticateToken, async (req, res) => {
         id: true,
         name: true,
         email: true,
+        address: true,
+        phone: true,
         createdAt: true,
       },
     })
@@ -171,15 +173,17 @@ app.get("/api/auth/profile", authenticateToken, async (req, res) => {
 // Update user profile
 app.put("/api/auth/profile", authenticateToken, async (req, res) => {
   try {
-    const { name } = req.body
+    const { name, address, phone } = req.body
 
     const user = await prisma.user.update({
       where: { id: req.user.id },
-      data: { name },
+      data: { name, address, phone },
       select: {
         id: true,
         name: true,
         email: true,
+        address: true,
+        phone: true,
       },
     })
 
@@ -187,6 +191,30 @@ app.put("/api/auth/profile", authenticateToken, async (req, res) => {
   } catch (error) {
     console.error("Profile update error:", error)
     res.status(500).json({ error: "Failed to update profile" })
+  }
+})
+
+// Save user address
+app.post("/api/auth/save-address", authenticateToken, async (req, res) => {
+  try {
+    const { address, phone } = req.body
+
+    const user = await prisma.user.update({
+      where: { id: req.user.id },
+      data: { address, phone },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        address: true,
+        phone: true,
+      },
+    })
+
+    res.json(user)
+  } catch (error) {
+    console.error("Save address error:", error)
+    res.status(500).json({ error: "Failed to save address" })
   }
 })
 
@@ -399,14 +427,25 @@ app.post("/api/donations", authenticateToken, async (req, res) => {
 app.put("/api/donations/:id", async (req, res) => {
   try {
     const { id } = req.params
+    console.log("Updating donation:", id, "with data:", req.body)
+    
+    // Filter out any undefined or null values
+    const updateData = Object.fromEntries(
+      Object.entries(req.body).filter(([_, value]) => value !== undefined && value !== null)
+    )
+    
+    console.log("Filtered update data:", updateData)
+    
     const donation = await prisma.donation.update({
       where: { id },
-      data: req.body,
+      data: updateData,
     })
+    
+    console.log("Updated donation:", donation)
     res.json(donation)
   } catch (error) {
     console.error("Error updating donation:", error)
-    res.status(500).json({ error: "Failed to update donation" })
+    res.status(500).json({ error: `Failed to update donation: ${error.message}` })
   }
 })
 

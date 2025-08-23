@@ -1,30 +1,39 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { MapPin, Navigation, Package } from "lucide-react"
 
 export default function DeliveryMap({ donations, currentLocation }) {
   const mapRef = useRef(null)
   const mapInstanceRef = useRef(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Initialize map with a simple implementation
     if (mapRef.current && !mapInstanceRef.current) {
-      initializeMap()
+      setIsLoading(true)
+      try {
+        initializeMap()
+      } finally {
+        setIsLoading(false)
+      }
     }
-  }, [currentLocation])
+  }, [currentLocation, donations])
 
   const initializeMap = () => {
-    // Simple map implementation using HTML5 Canvas or div elements
-    const mapContainer = mapRef.current
-    mapContainer.innerHTML = "" // Clear existing content
+    try {
+      // Simple map implementation using HTML5 Canvas or div elements
+      const mapContainer = mapRef.current
+      if (!mapContainer) return
+      
+      mapContainer.innerHTML = "" // Clear existing content
 
-    // Create a simple visual map representation
-    const mapDiv = document.createElement("div")
-    mapDiv.className = "relative w-full h-full bg-gradient-to-br from-blue-100 to-green-100 rounded-lg overflow-hidden"
+      // Create a simple visual map representation
+      const mapDiv = document.createElement("div")
+      mapDiv.className = "relative w-full h-full bg-gradient-to-br from-blue-100 to-green-100 rounded-lg overflow-hidden"
 
     // Add current location marker
-    if (currentLocation) {
+    if (currentLocation && currentLocation.lat && currentLocation.lng) {
       const currentMarker = document.createElement("div")
       currentMarker.className = "absolute bg-blue-600 rounded-full w-4 h-4 border-2 border-white shadow-lg"
       currentMarker.style.left = "20%"
@@ -35,6 +44,11 @@ export default function DeliveryMap({ donations, currentLocation }) {
     }
 
     // Add donation markers
+    if (!donations || !Array.isArray(donations)) {
+      console.warn("Donations is not an array:", donations)
+      return
+    }
+    
     donations.forEach((donation, index) => {
       const marker = document.createElement("div")
       marker.className =
@@ -76,7 +90,7 @@ export default function DeliveryMap({ donations, currentLocation }) {
 
     // Add route lines (simplified)
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-    svg.className = "absolute inset-0 w-full h-full pointer-events-none"
+    svg.setAttribute("class", "absolute inset-0 w-full h-full pointer-events-none")
     svg.innerHTML = `
       <defs>
         <pattern id="dashed" patternUnits="userSpaceOnUse" width="8" height="8">
@@ -89,12 +103,35 @@ export default function DeliveryMap({ donations, currentLocation }) {
     `
     mapDiv.appendChild(svg)
 
-    mapContainer.appendChild(mapDiv)
-    mapInstanceRef.current = mapDiv
+      mapContainer.appendChild(mapDiv)
+      mapInstanceRef.current = mapDiv
+    } catch (error) {
+      console.error("Error initializing map:", error)
+      // Fallback: show a simple message
+      const mapContainer = mapRef.current
+      if (mapContainer) {
+        mapContainer.innerHTML = `
+          <div class="flex items-center justify-center w-full h-full bg-gray-100 rounded-lg">
+            <div class="text-center text-gray-600">
+              <div class="text-2xl mb-2">🗺️</div>
+              <div class="text-sm">Map loading...</div>
+            </div>
+          </div>
+        `
+      }
+    }
   }
 
   return (
     <div className="w-full h-full relative">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg z-10">
+          <div className="text-center text-gray-600">
+            <div className="text-2xl mb-2">🗺️</div>
+            <div className="text-sm">Loading map...</div>
+          </div>
+        </div>
+      )}
       <div ref={mapRef} className="w-full h-full" />
 
       {/* Map Legend */}

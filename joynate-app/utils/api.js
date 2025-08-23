@@ -19,14 +19,28 @@ const makeRequest = async (url, options = {}) => {
   }
 
   try {
+    console.log("API: Making request to", `${API_BASE_URL}${url}`)
     const response = await fetch(`${API_BASE_URL}${url}`, config)
 
+    console.log("API: Response status:", response.status)
+    
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: "Request failed" }))
-      throw new Error(error.message || `HTTP error! status: ${response.status}`)
+      const errorText = await response.text()
+      console.error("API: Error response:", errorText)
+      
+      let errorData
+      try {
+        errorData = JSON.parse(errorText)
+      } catch (e) {
+        errorData = { message: errorText || "Request failed" }
+      }
+      
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
     }
 
-    return response.json()
+    const result = await response.json()
+    console.log("API: Success response:", result)
+    return result
   } catch (error) {
     console.error("API request failed:", error)
     throw error
@@ -66,6 +80,12 @@ export const authAPI = {
       method: "PUT",
       body: JSON.stringify(userData),
     }),
+
+  saveAddress: (addressData) =>
+    makeRequest("/auth/save-address", {
+      method: "POST",
+      body: JSON.stringify(addressData),
+    }),
 }
 
 // Donations API calls
@@ -84,11 +104,13 @@ export const donationsAPI = {
       body: JSON.stringify(donationData),
     }),
 
-  update: (id, updateData) =>
-    makeRequest(`/donations/${id}`, {
+  update: (id, updateData) => {
+    console.log("API: Updating donation", id, "with data:", updateData)
+    return makeRequest(`/donations/${id}`, {
       method: "PUT",
       body: JSON.stringify(updateData),
-    }),
+    })
+  },
 
   delete: (id) =>
     makeRequest(`/donations/${id}`, {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { MapPin, User, Package, Truck, CheckCircle, Phone, Calendar, Hash, Star, Timer } from "lucide-react"
 
 export default function DonationTracker({ donation, onClose }) {
@@ -35,7 +35,7 @@ export default function DonationTracker({ donation, onClose }) {
     {
       id: "donated",
       title: "Successfully Donated",
-      description: "Your donation has reached those in need",
+      description: donation?.deliveryNotes || "Your donation has reached those in need",
       icon: CheckCircle,
       color: "green",
       timestamp: donation?.donatedAt,
@@ -108,10 +108,10 @@ export default function DonationTracker({ donation, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
       <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
         {/* Header */}
-        <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-8 rounded-t-3xl text-white">
+        <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-8 rounded-t-3xl text-white">
           <button
             onClick={onClose}
             className="absolute top-6 right-6 text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-full transition-all duration-300"
@@ -131,11 +131,17 @@ export default function DonationTracker({ donation, onClose }) {
 
           {/* Progress Bar */}
           <div className="relative">
-            <div className="bg-white bg-opacity-20 rounded-full h-3 mb-2">
+            <div className="rounded-full h-3 mb-2 bg-white/25">
               <div
-                className="bg-white rounded-full h-3 transition-all duration-1000 ease-out"
+                className="h-3 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-300 to-blue-300 transition-all duration-700"
                 style={{ width: `${progress}%` }}
               />
+              <div
+                className="absolute top-0 -mt-1.5 h-6 w-6 rounded-full bg-white shadow-md border border-white/60 transition-[left] duration-700"
+                style={{ left: `calc(${progress}% - 12px)` }}
+              >
+                <span className="absolute inset-0 rounded-full bg-white/30 animate-ping" />
+              </div>
             </div>
             <div className="flex justify-between text-sm text-blue-100">
               <span>Progress</span>
@@ -147,11 +153,14 @@ export default function DonationTracker({ donation, onClose }) {
         {/* Content */}
         <div className="p-8">
           {/* Current Status Card */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-2xl mb-8 border border-blue-200">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-2xl mb-8 border border-blue-200 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <div className={`p-3 rounded-full ${getStatusColor(steps[currentStep]?.color, "current")}`}>
-                  {steps[currentStep] && steps[currentStep].icon({ className: "h-6 w-6" })}
+                  {steps[currentStep] && (() => {
+                    const IconComponent = steps[currentStep].icon
+                    return <IconComponent className="h-6 w-6" />
+                  })()}
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">{steps[currentStep]?.title}</h3>
@@ -187,8 +196,8 @@ export default function DonationTracker({ donation, onClose }) {
                     </div>
                     {index < steps.length - 1 && (
                       <div
-                        className={`absolute top-12 left-1/2 transform -translate-x-1/2 w-0.5 h-12 transition-all duration-500 ${
-                          status === "completed" ? "bg-green-400" : "bg-gray-200"
+                        className={`absolute top-12 left-1/2 -translate-x-1/2 w-0.5 h-12 transition-all duration-500 ${
+                          index < currentStep ? "bg-gradient-to-b from-emerald-400 to-green-500" : "bg-gray-200"
                         }`}
                       />
                     )}

@@ -32,7 +32,21 @@ export default function DonationHistory() {
       fetchDonations()
       // Set up polling for real-time updates
       const interval = setInterval(fetchDonations, 5000)
-      return () => clearInterval(interval)
+      
+      // Listen for real-time status changes
+      const handleStatusChange = (event) => {
+        const { donationId, newStatus } = event.detail
+        console.log(`Donation ${donationId} status changed to ${newStatus}`)
+        // Refresh donations immediately when status changes
+        fetchDonations()
+      }
+      
+      window.addEventListener('donationStatusChanged', handleStatusChange)
+      
+      return () => {
+        clearInterval(interval)
+        window.removeEventListener('donationStatusChanged', handleStatusChange)
+      }
     }
   }, [currentUser])
 
@@ -81,7 +95,7 @@ export default function DonationHistory() {
     }
   }
 
-  const getStatusText = (status) => {
+  const getStatusText = (status, donation = null) => {
     switch (status) {
       case "pending":
         return "Waiting for assignment"
@@ -90,7 +104,7 @@ export default function DonationHistory() {
       case "picked-up":
         return "Picked up by delivery person"
       case "donated":
-        return "Successfully donated to NGO"
+        return donation?.deliveryNotes ? "Successfully delivered to NGO" : "Successfully donated to NGO"
       default:
         return "Unknown status"
     }
@@ -328,7 +342,7 @@ export default function DonationHistory() {
                     </span>
                     <span className="mx-2">•</span>
                     <AlertCircle className="h-4 w-4" />
-                    <span>{getStatusText(donation.status)}</span>
+                                            <span>{getStatusText(donation.status, donation)}</span>
                   </div>
 
                   <button

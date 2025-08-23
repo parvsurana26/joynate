@@ -42,7 +42,7 @@ export default function NotificationDropdown({ onClose }) {
     }
   }
 
-  const getStatusText = (status) => {
+  const getStatusText = (status, donation = null) => {
     switch (status) {
       case "pending":
         return "Waiting for assignment"
@@ -51,7 +51,7 @@ export default function NotificationDropdown({ onClose }) {
       case "picked-up":
         return "Picked up by delivery person"
       case "donated":
-        return "Successfully donated to NGO"
+        return donation?.deliveryNotes ? "Successfully delivered to NGO" : "Successfully donated to NGO"
       default:
         return "Unknown status"
     }
@@ -75,7 +75,7 @@ export default function NotificationDropdown({ onClose }) {
                 {getStatusIcon(donation.status)}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 truncate">{donation.name}</p>
-                  <p className="text-xs text-gray-500">{getStatusText(donation.status)}</p>
+                                      <p className="text-xs text-gray-500">{getStatusText(donation.status, donation)}</p>
                   {donation.assignedTo && <p className="text-xs text-blue-600">Assigned to: {donation.assignedTo}</p>}
                 </div>
               </div>

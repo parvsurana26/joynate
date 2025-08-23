@@ -5,7 +5,7 @@ import { useAdminAuth } from "../../contexts/AdminAuthContext"
 import { donationsAPI } from "../../utils/api"
 import { LogOut, Filter, Users, Package, CheckCircle, Clock } from "lucide-react"
 
-const deliveryPersons = ["John Doe", "Jane Smith", "Mike Johnson", "Sarah Wilson"]
+const deliveryPersons = ["Rahul Sharama", "Rajesh Kumar", "Suresh Varma", "Virat Kohli"]
 
 export default function AdminDashboard() {
   const { adminLogout } = useAdminAuth()

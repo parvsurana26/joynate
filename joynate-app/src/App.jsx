@@ -4,6 +4,8 @@ import { AdminAuthProvider } from "../contexts/AdminAuthContext"
 import { DeliveryAuthProvider } from "../contexts/DeliveryAuthContext"
 import Navbar from "../components/Navbar"
 import LandingPage from "../pages/LandingPage"
+import AboutUs from "../pages/AboutUs"
+import ImpactPage from "../pages/ImpactPage"
 import LoginPage from "../pages/auth/LoginPage"
 import SignUpPage from "../pages/auth/SignUpPage"
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage"
@@ -15,14 +17,16 @@ import DeliveryDashboard from "../pages/delivery/DeliveryDashboard"
 import ProtectedRoute from "../components/ProtectedRoute"
 import AdminProtectedRoute from "../components/AdminProtectedRoute"
 import DeliveryProtectedRoute from "../components/DeliveryProtectedRoute"
+import NotificationSystem from "../components/NotificationSystem"
 
 function App() {
   return (
     <AuthProvider>
       <AdminAuthProvider>
         <DeliveryAuthProvider>
-          <Router>
+          <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <div className="min-h-screen bg-gray-50">
+              <NotificationSystem />
               <Routes>
                 {/* Public routes with navbar */}
                 <Route
@@ -31,6 +35,24 @@ function App() {
                     <>
                       <Navbar />
                       <LandingPage />
+                    </>
+                  }
+                />
+                <Route
+                  path="/about"
+                  element={
+                    <>
+                      <Navbar />
+                      <AboutUs />
+                    </>
+                  }
+                />
+                <Route
+                  path="/impact"
+                  element={
+                    <>
+                      <Navbar />
+                      <ImpactPage />
                     </>
                   }
                 />
