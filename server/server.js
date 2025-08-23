@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
 const crypto = require("crypto")
 const { PrismaClient } = require("@prisma/client")
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express()
 const prisma = new PrismaClient()
