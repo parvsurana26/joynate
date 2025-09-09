@@ -337,80 +337,81 @@ export default function DeliveryDashboard() {
       {/* Header */}
       <div className="bg-white shadow-lg border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 sm:py-6 space-y-4 sm:space-y-0">
             <div className="flex items-center space-x-4">
               <div className="bg-gradient-to-r from-green-600 to-blue-600 p-3 rounded-xl">
-                <Car className="h-8 w-8 text-white" />
+                <Car className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Delivery Dashboard</h1>
-                <p className="text-gray-600">Manage your pickup and delivery routes</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Delivery Dashboard</h1>
+                <p className="text-sm sm:text-base text-gray-600">Manage your pickup and delivery routes</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              
-              <button
-                onClick={deliveryLogout}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
-              >
-                <LogOut className="h-5 w-5" />
-                <span>Logout</span>
-              </button>
-            </div>
+            <button
+              onClick={deliveryLogout}
+              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 bg-gray-100 px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm sm:text-base"
+            >
+              <LogOut className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          {/* Assigned Pickups Card */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100">
             <div className="flex items-center">
-              <div className="bg-blue-100 p-3 rounded-xl">
-                <Package className="h-8 w-8 text-blue-600" />
+              <div className="bg-blue-100 p-2 sm:p-3 rounded-xl">
+                <Package className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Assigned Pickups</p>
-                <p className="text-3xl font-bold text-gray-900">{assignedDonations.length}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Assigned Pickups</p>
+                <p className="text-xl sm:text-3xl font-bold text-gray-900">{assignedDonations.length}</p>
                 <p className="text-xs text-blue-600 font-medium">{totalItemsToPickup} items to collect</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          {/* Ready to Donate Card */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100">
             <div className="flex items-center">
-              <div className="bg-green-100 p-3 rounded-xl">
-                <CheckCircle className="h-8 w-8 text-green-600" />
+              <div className="bg-green-100 p-2 sm:p-3 rounded-xl">
+                <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Ready to Donate</p>
-                <p className="text-3xl font-bold text-gray-900">{pickedUpDonations.length}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Ready to Donate</p>
+                <p className="text-xl sm:text-3xl font-bold text-gray-900">{pickedUpDonations.length}</p>
                 <p className="text-xs text-green-600 font-medium">{totalItemsReady} items ready</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          {/* Total Distance Card */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100">
             <div className="flex items-center">
-              <div className="bg-purple-100 p-3 rounded-xl">
-                <Route className="h-8 w-8 text-purple-600" />
+              <div className="bg-purple-100 p-2 sm:p-3 rounded-xl">
+                <Route className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600" />
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Distance</p>
-                <p className="text-3xl font-bold text-gray-900">{totalDistanceKm.toFixed(1)} km</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Total Distance</p>
+                <p className="text-xl sm:text-3xl font-bold text-gray-900">{totalDistanceKm.toFixed(1)} km</p>
                 <p className="text-xs text-purple-600 font-medium">Estimated route</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          {/* Estimated Time Card */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100">
             <div className="flex items-center">
-              <div className="bg-orange-100 p-3 rounded-xl">
-                <Timer className="h-8 w-8 text-orange-600" />
+              <div className="bg-orange-100 p-2 sm:p-3 rounded-xl">
+                <Timer className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600" />
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Est. Time</p>
-                <p className="text-3xl font-bold text-gray-900">{maxEta} min</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Est. Time</p>
+                <p className="text-xl sm:text-3xl font-bold text-gray-900">{maxEta} min</p>
                 <p className="text-xs text-orange-600 font-medium">To complete all</p>
               </div>
             </div>
@@ -436,151 +437,136 @@ export default function DeliveryDashboard() {
           </div>
         )}
 
-        {/* Assigned Donations */}
-        <div className="bg-white shadow-lg rounded-2xl mb-8 overflow-hidden">
-          <div className="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
-            <h2 className="text-2xl font-semibold text-gray-900 flex items-center">
-              <Package className="h-6 w-6 mr-3 text-blue-600" />
+        {/* Donations List */}
+        <div className="bg-white shadow-lg rounded-2xl mb-6 sm:mb-8 overflow-hidden">
+          <div className="px-4 sm:px-8 py-4 sm:py-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 flex items-center">
+              <Package className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-blue-600" />
               Assigned Pickups ({assignedDonations.length})
             </h2>
-            <p className="text-gray-600 mt-1">Items waiting for pickup</p>
+            <p className="text-sm sm:text-base text-gray-600 mt-1">Items waiting for pickup</p>
           </div>
 
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading assignments...</p>
-            </div>
-          ) : assignedDonations.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                <Package className="h-10 w-10 text-gray-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No assigned pickups</h3>
-              <p className="text-gray-600">Check back later for new assignments</p>
-            </div>
-          ) : (
-            <div className="divide-y divide-gray-200">
-              {assignedDonations.map((donation) => (
-                <div key={donation.id} className="p-8 hover:bg-gray-50 transition-colors relative">
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-4 mb-4">
-                        <h3 className="text-xl font-bold text-gray-900">{donation.name}</h3>
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getPriorityColor(donation.priority)}`}>
-                          {donation.priority.toUpperCase()} PRIORITY
-                        </span>
-                      </div>
+          {/* Donation Cards */}
+          <div className="divide-y divide-gray-200">
+            {assignedDonations.map((donation) => (
+              <div key={donation.id} className="p-4 sm:p-8 hover:bg-gray-50 transition-colors">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between space-y-4 sm:space-y-0">
+                  <div className="flex-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-4">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900">{donation.name}</h3>
+                      <span className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold ${getPriorityColor(donation.priority)}`}>
+                        {donation.priority.toUpperCase()} PRIORITY
+                      </span>
+                    </div>
 
-                      <div className="grid md:grid-cols-3 gap-6 mb-6">
-                        {/* Donor Info */}
-                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                          <h4 className="font-semibold text-blue-900 mb-3 flex items-center">
-                            <User className="h-4 w-4 mr-2" />
-                            Donor Information
-                          </h4>
-                          <div className="space-y-2 text-sm">
-                            <p className="text-blue-800">
-                              <span className="font-medium">Name:</span> {donation.userName}
-                            </p>
-                            <p className="text-blue-800">
-                              <span className="font-medium">Phone:</span> {donation.phone}
-                            </p>
-                            <p className="text-blue-800">
-                              <span className="font-medium">Type:</span> {donation.type}
-                            </p>
-                            <p className="text-blue-800">
-                              <span className="font-medium">Qty:</span> {donation.quantity} items
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Location Info */}
-                        <div className="bg-green-50 p-4 rounded-xl border border-green-200">
-                          <h4 className="font-semibold text-green-900 mb-3 flex items-center">
-                            <MapPin className="h-4 w-4 mr-2" />
-                            Location Details
-                          </h4>
-                          <div className="space-y-2 text-sm">
-                            <p className="text-green-800">
-                              <span className="font-medium">Distance:</span> {typeof donation.distanceKm === "number" ? `${donation.distanceKm.toFixed(1)} km` : "—"}
-                            </p>
-                            <p className="text-green-800">
-                              <span className="font-medium">ETA:</span> {typeof donation.etaMin === "number" ? `${donation.etaMin} min` : "—"}
-                            </p>
-                            <p className="text-green-800 text-xs break-words">{donation.address}</p>
-                          </div>
-                        </div>
-
-                        {/* Security Info */}
-                        <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
-                          <h4 className="font-semibold text-purple-900 mb-3 flex items-center">
-                            <Hash className="h-4 w-4 mr-2" />
-                            Security Details
-                          </h4>
-                          <div className="space-y-2 text-sm">
-                            <p className="text-purple-800">
-                              <span className="font-medium">Code:</span>
-                            </p>
-                            <code className="bg-white px-2 py-1 rounded text-purple-900 font-mono text-lg">
-                              {donation.securityCode}
-                            </code>
-                            <p className="text-purple-700 text-xs">Required for pickup verification</p>
-                          </div>
+                    {/* Info Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                      {/* Donor Info */}
+                      <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                        <h4 className="font-semibold text-blue-900 mb-3 flex items-center">
+                          <User className="h-4 w-4 mr-2" />
+                          Donor Information
+                        </h4>
+                        <div className="space-y-2 text-sm">
+                          <p className="text-blue-800">
+                            <span className="font-medium">Name:</span> {donation.userName}
+                          </p>
+                          <p className="text-blue-800">
+                            <span className="font-medium">Phone:</span> {donation.phone}
+                          </p>
+                          <p className="text-blue-800">
+                            <span className="font-medium">Type:</span> {donation.type}
+                          </p>
+                          <p className="text-blue-800">
+                            <span className="font-medium">Qty:</span> {donation.quantity} items
+                          </p>
                         </div>
                       </div>
 
-                      {/* 🚚 Live tracker map for THIS order */}
-                      {currentLocation && donation.coordinates && (
-                        <div className="mb-6">
-                          <InlineMap
-                            from={currentLocation}
-                            to={donation.coordinates}
-                            mapId={`map-${donation.id}`}
-                            labelTo="Pickup"
-                          />
+                      {/* Location Info */}
+                      <div className="bg-green-50 p-4 rounded-xl border border-green-200">
+                        <h4 className="font-semibold text-green-900 mb-3 flex items-center">
+                          <MapPin className="h-4 w-4 mr-2" />
+                          Location Details
+                        </h4>
+                        <div className="space-y-2 text-sm">
+                          <p className="text-green-800">
+                            <span className="font-medium">Distance:</span> {typeof donation.distanceKm === "number" ? `${donation.distanceKm.toFixed(1)} km` : "—"}
+                          </p>
+                          <p className="text-green-800">
+                            <span className="font-medium">ETA:</span> {typeof donation.etaMin === "number" ? `${donation.etaMin} min` : "—"}
+                          </p>
+                          <p className="text-green-800 text-xs break-words">{donation.address}</p>
                         </div>
-                      )}
+                      </div>
 
-                      <div className="flex flex-wrap gap-3">
-                        <button
-                          onClick={() => openNavigation(donation)}
-                          className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                        >
-                          <Navigation className="h-5 w-5" />
-                          <span>Navigate</span>
-                        </button>
-
-                        <button
-                          onClick={() => handlePickup(donation)}
-                          className="flex items-center space-x-2 bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                        >
-                          <CheckCircle className="h-5 w-5" />
-                          <span>Mark as Picked Up</span>
-                        </button>
-
-                        <a
-                          href={`tel:${donation.phone}`}
-                          className="flex items-center space-x-2 bg-orange-600 text-white px-6 py-3 rounded-xl hover:bg-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                        >
-                          <Phone className="h-5 w-5" />
-                          <span>Call Donor</span>
-                        </a>
+                      {/* Security Info */}
+                      <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
+                        <h4 className="font-semibold text-purple-900 mb-3 flex items-center">
+                          <Hash className="h-4 w-4 mr-2" />
+                          Security Details
+                        </h4>
+                        <div className="space-y-2 text-sm">
+                          <p className="text-purple-800">
+                            <span className="font-medium">Code:</span>
+                          </p>
+                          <code className="bg-white px-2 py-1 rounded text-purple-900 font-mono text-lg">
+                            {donation.securityCode}
+                          </code>
+                          <p className="text-purple-700 text-xs">Required for pickup verification</p>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Quick Actions - Share and Call */}
-                    <QuickActions donation={donation} />
+                    {/* 🚚 Live tracker map for THIS order */}
+                    {currentLocation && donation.coordinates && (
+                      <div className="mb-4 sm:mb-6">
+                        <InlineMap
+                          from={currentLocation}
+                          to={donation.coordinates}
+                          mapId={`map-${donation.id}`}
+                          labelTo="Pickup"
+                        />
+                      </div>
+                    )}
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap gap-2 sm:gap-3">
+                      <button
+                        onClick={() => openNavigation(donation)}
+                        className="flex-1 sm:flex-none flex items-center justify-center space-x-2 bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-blue-700 transition-all text-sm sm:text-base"
+                      >
+                        <Navigation className="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span>Navigate</span>
+                      </button>
+
+                      <button
+                        onClick={() => handlePickup(donation)}
+                        className="flex-1 sm:flex-none flex items-center justify-center space-x-2 bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-green-700 transition-all text-sm sm:text-base"
+                      >
+                        <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span>Mark as Picked Up</span>
+                      </button>
+
+                      <a
+                        href={`tel:${donation.phone}`}
+                        className="flex-1 sm:flex-none flex items-center justify-center space-x-2 bg-orange-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-orange-700 transition-all text-sm sm:text-base"
+                      >
+                        <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span>Call Donor</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Picked Up Donations */}
         <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
-          <div className="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-green-50 to-blue-50">
+          <div className="px-4 sm:px-8 py-4 sm:py-6 border-b border-gray-200 bg-gradient-to-r from-green-50 to-blue-50">
             <h2 className="text-2xl font-semibold text-gray-900 flex items-center">
               <CheckCircle className="h-6 w-6 mr-3 text-green-600" />
               Ready to Donate ({pickedUpDonations.length})

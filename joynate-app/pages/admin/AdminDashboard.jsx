@@ -83,6 +83,11 @@ export default function AdminDashboard() {
     totalUsers: [...new Set(donations.map((d) => d.userId))].length,
   }
 
+  // Track assigned delivery persons
+  const assignedDeliveryPersons = donations
+    .filter((d) => d.assignedTo)
+    .map((d) => d.assignedTo);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -247,21 +252,28 @@ export default function AdminDashboard() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-y-2">
                         {donation.status === "pending" && (
                           <div className="space-y-2">
-                            <select
-                              onChange={(e) => {
-                                if (e.target.value) {
-                                  updateDonationStatus(donation.id, "assigned", e.target.value)
-                                }
-                              }}
-                              className="block w-full text-xs border border-gray-300 rounded px-2 py-1"
-                            >
-                              <option value="">Assign to...</option>
-                              {deliveryPersons.map((person) => (
-                                <option key={person} value={person}>
-                                  {person}
-                                </option>
-                              ))}
-                            </select>
+                            <div className="relative">
+                              <select
+                                onChange={(e) => {
+                                  if (e.target.value) {
+                                    updateDonationStatus(donation.id, "assigned", e.target.value)
+                                  }
+                                }}
+                                className="block w-full text-xs border border-blue-300 rounded px-2 py-2 bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
+                              >
+                                <option value="">🚚 Assign to delivery boy...</option>
+                                {deliveryPersons
+                                  .filter((person) => !assignedDeliveryPersons.includes(person))
+                                  .map((person) => (
+                                    <option key={person} value={person}>
+                                      {person}
+                                    </option>
+                                  ))}
+                              </select>
+                              <span className="absolute right-3 top-2 text-blue-400 pointer-events-none">
+                                <Users className="h-4 w-4" />
+                              </span>
+                            </div>
                           </div>
                         )}
 

@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
 const crypto = require("crypto")
 const { PrismaClient } = require("@prisma/client")
-import dotenv from "dotenv";
-dotenv.config();
 
 const app = express()
 const prisma = new PrismaClient()
@@ -43,6 +41,66 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 })
+
+const sendDonationConfirmationEmail = async (userEmail, userName, donation) => {
+  const emailContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div style="background: linear-gradient(to right, #3b82f6, #8b5cf6); padding: 20px; border-radius: 10px; color: white; text-align: center; margin-bottom: 20px;">
+        <h1>Thank You for Your Donation!</h1>
+      </div>
+      
+      <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h2 style="color: #1e40af;">Hello ${userName},</h2>
+        <p>Your donation has been successfully registered with the following details:</p>
+        
+        <div style="background: white; padding: 15px; border-radius: 8px; margin: 15px 0;">
+          <h3 style="color: #3b82f6; margin-top: 0;">Donation Details:</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li>🎁 Item: ${donation.name}</li>
+            <li>📦 Type: ${donation.type}</li>
+            <li>🔢 Quantity: ${donation.quantity}</li>
+            <li>🏠 Pickup Address: ${donation.address}</li>
+          </ul>
+        </div>
+
+        <div style="background: #dbeafe; padding: 15px; border-radius: 8px; margin-top: 20px;">
+          <p style="margin: 0; color: #1e40af;">
+            <strong>Security Code:</strong> ${donation.securityCode}
+          </p>
+          <p style="font-size: 0.9em; margin-top: 5px; color: #3b82f6;">
+            Keep this code safe - you'll need it for pickup verification
+          </p>
+        </div>
+      </div>
+
+      <div style="background: #f0fdf4; padding: 20px; border-radius: 10px;">
+        <h3 style="color: #166534; margin-top: 0;">What's Next?</h3>
+        <ul style="color: #166534;">
+          <li>We will review your donation request</li>
+          <li>A delivery person will be assigned soon</li>
+          <li>You'll receive a notification when pickup is scheduled</li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px; color: #64748b; font-size: 0.9em;">
+        <p>Thank you for making a difference!</p>
+        <p>- Team Joynate</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: userEmail,
+      subject: "Thank You for Your Donation! - Joynate",
+      html: emailContent
+    });
+    console.log('Donation confirmation email sent successfully');
+  } catch (error) {
+    console.error('Error sending donation confirmation email:', error);
+  }
+};
 
 // Test route
 app.get("/api/test", (req, res) => {
@@ -415,13 +473,36 @@ app.get("/api/donations/user/:userId/stats", authenticateToken, async (req, res)
 // Create donation
 app.post("/api/donations", authenticateToken, async (req, res) => {
   try {
+    // Get user details from auth token
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        email: true,
+        name: true
+      }
+    });
+
+    // Create donation
     const donation = await prisma.donation.create({
-      data: req.body,
-    })
-    res.status(201).json(donation)
+      data: {
+        ...req.body,
+        userId: req.user.id,
+        userEmail: user.email,
+        userName: user.name
+      }
+    });
+
+    // Send confirmation email
+    await sendDonationConfirmationEmail(
+      user.email,
+      user.name,
+      donation
+    );
+
+    res.status(201).json(donation);
   } catch (error) {
-    console.error("Error creating donation:", error)
-    res.status(500).json({ error: "Failed to create donation" })
+    console.error("Error creating donation:", error);
+    res.status(500).json({ error: "Failed to create donation" });
   }
 })
 
@@ -474,3 +555,4 @@ app.use((error, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+

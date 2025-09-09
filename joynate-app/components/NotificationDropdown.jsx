@@ -7,7 +7,7 @@ import { Package, Truck, CheckCircle, Clock } from "lucide-react"
 
 export default function NotificationDropdown({ onClose }) {
   const { currentUser } = useAuth()
-  const [donations, setDonations] = useState([])
+  const [donations, setDonations] = useState([])  
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

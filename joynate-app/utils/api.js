@@ -1,4 +1,4 @@
-REACT_APP_API_BASE_URL=https://joynate.onrender.com/api
+const API_BASE_URL = "http://localhost:3001/api"
 
 // Helper function to get auth token
 const getAuthToken = () => {

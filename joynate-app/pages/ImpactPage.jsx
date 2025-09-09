@@ -87,28 +87,28 @@ export default function ImpactPage() {
       id: 1,
       name: "Aisha, 8 years old",
       story: "Received her first school uniform through Joynate donations",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      image: "./src/assets/face-1.jpg",
       age: "8 years"
     },
     {
       id: 2,
       name: "Maria, 35 years old",
       story: "Single mother who received food supplies for her family",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      image: "./src/assets/face-2.jpeg",
       age: "35 years"
     },
     {
       id: 3,
-      name: "Ahmed, 12 years old",
-      story: "Now attends school regularly thanks to clothing donations",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      name: "Varsha, 48 years old",
+      story: "Now happy to get clothes and food",
+      image: "./src/assets/face-3.jpg",
       age: "12 years"
     },
     {
       id: 4,
       name: "Priya, 28 years old",
       story: "Received essential items for her newborn baby",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      image: "./src/assets/face-4.jpeg",
       age: "28 years"
     },
     {
@@ -118,13 +118,7 @@ export default function ImpactPage() {
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
       age: "45 years"
     },
-    {
-      id: 6,
-      name: "Fatima, 16 years old",
-      story: "Teenager who received books and school supplies",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      age: "16 years"
-    }
+    
   ]
 
   // Impact Videos (placeholder data)

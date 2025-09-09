@@ -1,8 +1,8 @@
-"use client"
 
 import { useState, useEffect } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { donationsAPI } from "../utils/api"
+import { Link } from "react-router-dom";
 import { 
   Heart, 
   Users, 
